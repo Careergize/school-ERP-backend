@@ -14,10 +14,16 @@ class InvoiceDetailAPIView(RecordDetailAPIView):
     serializer_class = serializers.InvoiceSerializer
 
 
-class InvoiceExportAPIView(RecordExportAPIView):
+class InvoiceExportAPIView(InvoiceListAPIView):
     module = 'fees'
     model = models.Invoice
     serializer_class = serializers.InvoiceSerializer
+
+    http_method_names = ['get', 'head', 'options']
+
+    def get(self, request):
+        from core.services import export
+        return export(self.module, self.erp_user, queryset=self.get_queryset())
 
 
 class ReceiptListAPIView(RecordListAPIView):

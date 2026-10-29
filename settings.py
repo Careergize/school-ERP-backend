@@ -63,6 +63,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Local-only school data assistant. No external provider or API key is used.
 INSTALLED_APPS += ['assistant.apps.AssistantConfig']
+INSTALLED_APPS += ['improvement']
 ASSISTANT_PLANNER = 'assistant.planner.LocalPlanner'
 ASSISTANT_POLICY_VERSION = '1'
 ASSISTANT_QUERY_TIMEOUT_SECONDS = 8

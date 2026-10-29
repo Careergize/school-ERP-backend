@@ -55,6 +55,14 @@ class RecordListAPIView(ERPAPIView):
         for key,value in self.request.query_params.items():
             if key in ['search','page','page_size'] or value == '':
                 continue
+            if self.module == 'fees' and key == 'class_id':
+                try:
+                    class_id = int(value)
+                    if class_id < 1: raise ValueError
+                except (ValueError, TypeError):
+                    raise ValidationError({'detail':'Invalid filter value for class_id.'})
+                queryset = queryset.filter(student__school_class_id=class_id)
+                continue
             field = fields.get(key)
             if field is None or field.name in ['password','created_at','updated_at']:
                 raise ValidationError({'detail':f'Unsupported filter: {key}.'})

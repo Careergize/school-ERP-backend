@@ -214,8 +214,8 @@ def catalog(u=None):
     return module_catalog(u)
 
 
-def export(module,u=None):
-    rows=list_records(module,u)
+def export(module,u=None,queryset=None):
+    rows=list_records(module,u) if queryset is None else serializer_for(module)(queryset,many=True).data
     keys=[key for key in serializer_for(module)().fields if key not in ['created_at','updated_at']]
     out=io.StringIO();writer=csv.DictWriter(out,fieldnames=keys,extrasaction='ignore');writer.writeheader()
     for row in rows:
